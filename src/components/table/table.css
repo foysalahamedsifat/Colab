@@ -1,0 +1,8 @@
+.btnGroup{
+    float: right;
+}
+.btnGroup button.btn.btn-primary {
+    margin-left: 20px;
+    padding: 7px 50px;
+    text-transform: capitalize;
+}

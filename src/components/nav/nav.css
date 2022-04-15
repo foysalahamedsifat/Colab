@@ -1,0 +1,10 @@
+.logo {
+  float: left;
+}
+input#search {
+    float: right;
+    width: 20%;
+}
+.navber {
+    padding: 20px 0;
+}
