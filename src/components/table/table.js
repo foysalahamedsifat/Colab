@@ -38,7 +38,7 @@ function TableData() {
                 placeholder='Search...'
                 onChange={(e) => searchItems(e.target.value)} id="search" />
 
-            <Table striped bordered hover>
+            <Table bordered hover>
                 <thead>
                     <tr>
                         <th>ID</th>
