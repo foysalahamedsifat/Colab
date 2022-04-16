@@ -1,36 +1,57 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import Table from 'react-bootstrap/Table'
-import { getData } from "../../services/data.service";
+// import { getData } from "../../services/data.service";
 import {useContext} from "react";
 import { ProductContext } from "../ProductContext/ProductContext";
-import Nav from '../nav/nav'
-import '../table/table.css'
-import Modal from '../modal/modal'
+import Nav from '../nav/nav';
+import '../table/table.css';
+import Modal from '../modal/modal';
+
+
 function TableData() {
     const [brands, setBrands] = useState({ count: 0, data: [] });
     const [modalShow, setModalShow] = useState(false);
 
     const [Product, setUsers] = useContext(ProductContext);
+    const [searchInput, setSearchInput] = useState('');
+    const [filteredResults, setFilteredResults] = useState([]);
+
+    const searchItems = (searchValue) => {
+        setSearchInput(searchValue)
+        if (searchInput !== '') {
+            const filteredData = Product.filter((item) => {
+                return Object.values(item).join('').toLowerCase().includes(searchInput.toLowerCase())
+            })
+            setFilteredResults(filteredData)
+        }
+        else{
+            setFilteredResults(Product)
+        }
+    }
     console.log(Product)
 
     var i=1;
-    useEffect(() => {
-        getBrandData();
-    }, []);
+    // useEffect(() => {
+    //     getBrandData();
+    // }, []);
 
-    function getBrandData() {
-        (async () => {
-            const response = await getData();
-            console.log(response)
-            return setBrands({ count: response.count, data: response.data });
+    // function getBrandData() {
+    //     (async () => {
+    //         const response = await getData();
+    //         console.log(response)
+    //         return setBrands({ count: response.count, data: response.data });
 
-        })();
+    //     })();
 
-    }
+    // }
     return (
        
             <div className="container">
                 <Nav />
+                <input className="form-control mb-3" type="search" name="search" icon='search'
+                placeholder='Search...'
+                onChange={(e) => searchItems(e.target.value)} id="search" />
+
                 <Table striped bordered hover>
                     <thead>
                         <tr>
@@ -45,17 +66,31 @@ function TableData() {
                     </thead>
                     <tbody>
                     {
-          Product.map(user =>
+                        searchInput.length > 1 ? (
+          filteredResults.map(product =>
             <tr>
             <td>{i++}</td>
-            <td>{user.name}</td>
-            <td>{user.code}</td>
-            <td>{user.availability}</td>
-            <td>{user.needing_repair}</td>
-            <td>{user.durability}</td>
-            <td>{user.mileage}</td>
+            <td>{product.name}</td>
+            <td>{product.code}</td>
+            <td>{product.availability}</td>
+            <td>{product.needing_repair}</td>
+            <td>{product.durability}</td>
+            <td>{product.mileage}</td>
         </tr>
            
+            )):(
+                Product.map(product =>
+                    <tr>
+                    <td>{i++}</td>
+                    <td>{product.name}</td>
+                    <td>{product.code}</td>
+                    <td>{product.availability}</td>
+                    <td>{product.needing_repair}</td>
+                    <td>{product.durability}</td>
+                    <td>{product.mileage}</td>
+                </tr>
+                   
+                    )
             )
       }
     
