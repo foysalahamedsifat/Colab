@@ -1,18 +1,18 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import Table from 'react-bootstrap/Table'
-// import { getData } from "../../services/data.service";
-import {useContext} from "react";
+import { useContext } from "react";
 import { ProductContext } from "../ProductContext/ProductContext";
 import Nav from '../nav/nav';
 import '../table/table.css';
-import Modal from '../modal/modal';
+import BookModal from '../book/BookModal';
+import ReturnModal from '../return/returnModal'
 
 
 function TableData() {
-    const [brands, setBrands] = useState({ count: 0, data: [] });
-    const [modalShow, setModalShow] = useState(false);
+    const [bookModalShow, setBookModalShow] = useState(false);
+    const [returnModalShow, setReturnModalShow] = useState(false);
 
-    const [Product, setUsers] = useContext(ProductContext);
+    const [Product] = useContext(ProductContext);
     const [searchInput, setSearchInput] = useState('');
     const [filteredResults, setFilteredResults] = useState([]);
 
@@ -24,86 +24,74 @@ function TableData() {
             })
             setFilteredResults(filteredData)
         }
-        else{
+        else {
             setFilteredResults(Product)
         }
     }
     console.log(Product)
 
-    var i=1;
-    // useEffect(() => {
-    //     getBrandData();
-    // }, []);
-
-    // function getBrandData() {
-    //     (async () => {
-    //         const response = await getData();
-    //         console.log(response)
-    //         return setBrands({ count: response.count, data: response.data });
-
-    //     })();
-
-    // }
+    var i = 1;
     return (
-       
-            <div className="container">
-                <Nav />
-                <input className="form-control mb-3" type="search" name="search" icon='search'
+
+        <div className="container">
+            <Nav />
+            <input className="form-control mb-3" type="search" name="search" icon='search'
                 placeholder='Search...'
                 onChange={(e) => searchItems(e.target.value)} id="search" />
 
-                <Table striped bordered hover>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Co</th>
-                            <th>Availabi</th>
-                            <th>Need to Re</th>
-                            <th>Durabil</th>
-                            <th>Milea</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            <Table striped bordered hover>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Co</th>
+                        <th>Availabi</th>
+                        <th>Need to Re</th>
+                        <th>Durabil</th>
+                        <th>Milea</th>
+                    </tr>
+                </thead>
+                <tbody>
                     {
                         searchInput.length > 1 ? (
-          filteredResults.map(product =>
-            <tr>
-            <td>{i++}</td>
-            <td>{product.name}</td>
-            <td>{product.code}</td>
-            <td>{product.availability}</td>
-            <td>{product.needing_repair}</td>
-            <td>{product.durability}</td>
-            <td>{product.mileage}</td>
-        </tr>
-           
-            )):(
-                Product.map(product =>
-                    <tr>
-                    <td>{i++}</td>
-                    <td>{product.name}</td>
-                    <td>{product.code}</td>
-                    <td>{product.availability.toString()}</td>
-                    <td>{product.needing_repair.toString()}</td>
-                    <td>{product.durability}</td>
-                    <td>{product.mileage}</td>
-                </tr>
-                   
-                    )
-            )
-      }
-    
-                       
-                    </tbody>
-                </Table>
-                <div className="btnGroup">
-                    <Modal />
-                    {/* <button className="btn btn-primary" type="submit">book</button> */}
-                    <button className="btn btn-primary" type="submit">return</button>
-                </div>
+                            filteredResults.map(product =>
+                                <tr>
+                                    <td>{i++}</td>
+                                    <td>{product.name}</td>
+                                    <td>{product.code}</td>
+                                    <td>{product.availability}</td>
+                                    <td>{product.needing_repair}</td>
+                                    <td>{product.durability}</td>
+                                    <td>{product.mileage}</td>
+                                </tr>
+
+                            )) : (
+                                Product.map(product =>
+                                    <tr>
+                                        <td>{i++}</td>
+                                        <td>{product.name}</td>
+                                        <td>{product.code}</td>
+                                        <td>{product.availability.toString()}</td>
+                                        <td>{product.needing_repair.toString()}</td>
+                                        <td>{product.durability}</td>
+                                        <td>{product.mileage}</td>
+                                    </tr>
+
+                                )
+                            )
+                    }
+
+
+                </tbody>
+            </Table>
+            <div className="btnGroup">
+                <BookModal show={bookModalShow} onHide={() => setBookModalShow(false)} />
+                <ReturnModal show={returnModalShow} onHide={() => setReturnModalShow(false)} />
+                <button className="btn btn-primary" type="submit" onClick={() => setBookModalShow(true)}>Book</button>
+                <button className="btn btn-primary" type="submit" onClick={() => setReturnModalShow(true)}>return</button>
             </div>
-        
+        </div>
+
     )
 }
 
