@@ -84,8 +84,8 @@ function TableData() {
                     <td>{i++}</td>
                     <td>{product.name}</td>
                     <td>{product.code}</td>
-                    <td>{product.availability}</td>
-                    <td>{product.needing_repair}</td>
+                    <td>{product.availability.toString()}</td>
+                    <td>{product.needing_repair.toString()}</td>
                     <td>{product.durability}</td>
                     <td>{product.mileage}</td>
                 </tr>
