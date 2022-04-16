@@ -1,12 +1,30 @@
 import React, { useEffect, useState } from "react";
 import Modal from 'react-bootstrap/Modal'
 import { Button } from 'react-bootstrap';
+import Select from 'react-select';
 import Dropdown from 'react-bootstrap/Dropdown';
 import {useContext} from "react";
 import { ProductContext } from "../ProductContext/ProductContext";
 
 function MydModalWithGrid(props) {
     const [Product, setUsers] = useContext(ProductContext);
+    const [productdropdown, setProduct] = useState([]);
+
+    for(var i=0;i< Product.length;i++)
+    {
+        if(productdropdown.length<Product.length )
+        {
+            const newItem = {
+                label: (Product[i].name + ' '+ Product[i].code),
+                 // change from recipeName to itemName
+                value: Product[i].code,
+              };
+              console.log(newItem)
+            productdropdown.push(newItem);
+        }
+       
+
+    }
 
     return (
         <Modal {...props} aria-labelledby="contained-modal-title-vcenter">
@@ -17,7 +35,8 @@ function MydModalWithGrid(props) {
             </Modal.Header>
             <Modal.Body className="show-grid">
                 <h4>Book a Product</h4>
-                <Dropdown className="mb-4">
+                <Select options={productdropdown} />
+                {/* <Dropdown className="mb-4">
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
                         Select Product
                     </Dropdown.Toggle>
@@ -31,7 +50,7 @@ function MydModalWithGrid(props) {
                         }
                        
                     </Dropdown.Menu>
-                </Dropdown>
+                </Dropdown> */}
                 <label htmlFor="from">From</label>
                 <input type="date" name="from" id="datefrom"/>
                 
@@ -53,7 +72,7 @@ function Appsas() {
         <>
             <Button variant="primary" onClick={() => setModalShow(true)}>
                 Book
-      </Button>
+            </Button>
 
             <MydModalWithGrid show={modalShow} onHide={() => setModalShow(false)} />
         </>

@@ -55,7 +55,7 @@ function TableData() {
                 <Table striped bordered hover>
                     <thead>
                         <tr>
-                            <th>I</th>
+                            <th>ID</th>
                             <th>Name</th>
                             <th>Co</th>
                             <th>Availabi</th>
