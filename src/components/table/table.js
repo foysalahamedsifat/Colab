@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
 import Table from 'react-bootstrap/Table'
 import { getData } from "../../services/data.service";
+import {useContext} from "react";
+import { ProductContext } from "../ProductContext/ProductContext";
 import Nav from '../nav/nav'
 import '../table/table.css'
 import Modal from '../modal/modal'
 function TableData() {
     const [brands, setBrands] = useState({ count: 0, data: [] });
     const [modalShow, setModalShow] = useState(false);
+
+    const [Product, setUsers] = useContext(ProductContext);
+    console.log(Product)
+
+    var i=1;
     useEffect(() => {
         getBrandData();
     }, []);
@@ -21,7 +28,7 @@ function TableData() {
 
     }
     return (
-        <>
+       
             <div className="container">
                 <Nav />
                 <Table striped bordered hover>
@@ -37,15 +44,22 @@ function TableData() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                        </tr>
+                    {
+          Product.map(user =>
+            <tr>
+            <td>{i++}</td>
+            <td>{user.name}</td>
+            <td>{user.code}</td>
+            <td>{user.availability}</td>
+            <td>{user.needing_repair}</td>
+            <td>{user.durability}</td>
+            <td>{user.mileage}</td>
+        </tr>
+           
+            )
+      }
+    
+                       
                     </tbody>
                 </Table>
                 <div className="btnGroup">
@@ -54,7 +68,7 @@ function TableData() {
                     <button className="btn btn-primary" type="submit">return</button>
                 </div>
             </div>
-        </>
+        
     )
 }
 
