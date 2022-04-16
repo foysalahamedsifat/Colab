@@ -28,7 +28,6 @@ function TableData() {
             setFilteredResults(Product)
         }
     }
-    console.log(Product)
 
     var i = 1;
     return (
